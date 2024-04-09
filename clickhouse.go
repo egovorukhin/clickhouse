@@ -4,10 +4,11 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+	"github.com/ClickHouse/clickhouse-go/v2"
 	"reflect"
 	"strings"
 
-	"github.com/ClickHouse/clickhouse-go/v2"
+	//"github.com/ClickHouse/clickhouse-go/v2"
 	"github.com/hashicorp/go-version"
 	"gorm.io/gorm"
 	"gorm.io/gorm/callbacks"
@@ -47,7 +48,7 @@ func New(config Config) gorm.Dialector {
 }
 
 func (dialector Dialector) Name() string {
-	return "clickhouse"
+	return "chhttp"
 }
 
 func (dialector *Dialector) Initialize(db *gorm.DB) (err error) {

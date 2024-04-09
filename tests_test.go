@@ -4,6 +4,7 @@ import (
 	"log"
 	"math/rand"
 	"os"
+	"testing"
 	"time"
 
 	"gorm.io/driver/clickhouse"
@@ -51,5 +52,16 @@ func RunMigrations() {
 			log.Printf("Failed to create table for %#v\n", m)
 			os.Exit(1)
 		}
+	}
+}
+
+func TestRaw(t *testing.T) {
+	query := "SELECT id, name AS usename FROM system.users WHERE name!='default' AND UPPER(name) LIKE UPPER('%') ORDER BY name"
+	var items []map[string]interface{}
+	if err := DB.Raw(query).Find(&items).Error; err != nil {
+		t.Fatal(err)
+	}
+	for _, item := range items {
+		t.Logf("%#v\n", item)
 	}
 }
